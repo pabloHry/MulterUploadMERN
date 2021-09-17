@@ -14,8 +14,11 @@ const AdminPage = () => {
   const [author, setAuthor] = useState({});
   const [body, setBody] = useState({});
   const [title, setTitle] = useState({});
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
 
-  const send = () => {
+  const send = async () => {
     let formData = new FormData();
     formData.append("avatar", img);
     formData.append("author", author);

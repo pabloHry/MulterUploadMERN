@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const Vitrine = require("./schemas/vitrine");
+const Contact = require("./schemas/contact");
 const multer = require("multer");
 const upload = multer({ dest: "public/images" });
 const fs = require("fs");
@@ -43,8 +44,26 @@ app.post("/uploadFile", upload.single("avatar"), async (req, res, next) => {
   return res.send(newVitrine);
 });
 
+app.post("/contact", async (req, res) => {
+  const { prenom, email, nom, msg } = req?.body;
+
+  const newContact = new Contact({
+    prenom,
+    email,
+    nom,
+    msg,
+  });
+  newContact.save();
+  return res.send(newContact);
+});
+
 app.get("/image", async (req, res) => {
   const result = await Vitrine.find({});
+  return res.json(result);
+});
+
+app.get("/contact", async (req, res) => {
+  const result = await Contact.find({});
   return res.json(result);
 });
 

@@ -4,6 +4,8 @@ import axios from "axios";
 
 const HomePage = () => {
   const [data, setData] = useState([]);
+  const [contact, setContact] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/image", {
@@ -11,6 +13,13 @@ const HomePage = () => {
       })
       .then((res) => {
         setData(res.data);
+      });
+    axios
+      .get("http://localhost:4000/contact", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setContact(res.data);
       });
   }, []);
 
@@ -55,6 +64,23 @@ const HomePage = () => {
           );
         })}
       </Grid>
+      <Box>
+        <Text textAlign='center' fontWeight='700' fontSize='70px'>
+          Contact :
+        </Text>
+        <Box>
+          {contact.map((item) => {
+            return (
+              <Box textAlign='center' bg='#F7F7F7' key={item.msg} mt={10} p={5}>
+                <Text>Prenom: {item.prenom}</Text>
+                <Text>Nom: {item.nom}</Text>
+                <Text>Email: {item.email}</Text>
+                <Text>Message: {item.msg}</Text>
+              </Box>
+            );
+          })}
+        </Box>
+      </Box>
     </Box>
   );
 };
